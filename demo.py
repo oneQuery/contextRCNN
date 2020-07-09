@@ -290,7 +290,7 @@ context_features = []
 scores = []
 faster_rcnn_results = {}
 for image_path in TEST_IMAGE_PATHS:
-  image_id = image_path_to_id[str(image_path)]
+  image_id = image_path_to_id[str(image_path).replace("\\", "/")]
   date_captured = image_id_to_datetime[image_id]
   context_feature, score, results = run_inference(
       faster_rcnn_model, image_path, date_captured)
@@ -465,7 +465,7 @@ plt.rcParams['figure.figsize'] = [15,10]
 
 # Run Context R-CNN inference and compare results to Faster R-CNN
 for image_path in TEST_IMAGE_PATHS:
-  image_id = image_path_to_id[str(image_path)]
+  image_id = image_path_to_id[str(image_path).replace("\\", "/")]
   faster_rcnn_output_dict = faster_rcnn_results[image_id]
   context_rcnn_image, faster_rcnn_image = show_context_rcnn_inference(
       context_rcnn_model, image_path, context_features_matrix,
