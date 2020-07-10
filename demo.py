@@ -71,6 +71,23 @@ utils_ops.tf = tf.compat.v1
 tf.gfile = tf.io.gfile
 
 ##########################################################################
+
+def splitall(path):
+  allparts = []
+  while 1:
+    parts = os.path.split(path)
+    if parts[0] == path:  # sentinel for absolute paths
+      allparts.insert(0, parts[0])
+      break
+    elif parts[1] == path:  # sentinel for relative paths
+      allparts.insert(0, parts[1])
+      break
+    else:
+      path = parts[0]
+      allparts.insert(0, parts[1])
+  return allparts
+
+############################################################################
 # Model preparation
 
 # Loader
@@ -464,18 +481,18 @@ plt.rcParams['ytick.right'] = False
 plt.rcParams['figure.figsize'] = [15,10]
 
 # Run Context R-CNN inference and compare results to Faster R-CNN
-for image_path in TEST_IMAGE_PATHS:
+for count, image_path in enumerate(TEST_IMAGE_PATHS):
   image_id = image_path_to_id[str(image_path).replace("\\", "/")]
   faster_rcnn_output_dict = faster_rcnn_results[image_id]
   context_rcnn_image, faster_rcnn_image = show_context_rcnn_inference(
       context_rcnn_model, image_path, context_features_matrix,
       faster_rcnn_output_dict, context_padding_size)
-  plt.subplot(1,2,1)
+  plt.subplot(4,2,count*2+1)
   plt.imshow(faster_rcnn_image)
   plt.title('Faster R-CNN')
-  plt.subplot(1,2,2)
+  plt.subplot(4,2,count*2+2)
   plt.imshow(context_rcnn_image)
   plt.title('Context R-CNN')
-  plt.show()
-
+  # plt.show()
+  plt.savefig("result.png")
 # The images used in this demo are from the Snapshot Serengeti dataset, and released under the Community Data License Agreement (permissive variant).
