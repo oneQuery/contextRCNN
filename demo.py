@@ -494,5 +494,7 @@ for count, image_path in enumerate(TEST_IMAGE_PATHS):
   plt.imshow(context_rcnn_image)
   plt.title('Context R-CNN')
   # plt.show()
-  plt.savefig("result.png")
+plt.savefig("result.png")
+im = Image.open(r"./result.png")
+im.show()
 # The images used in this demo are from the Snapshot Serengeti dataset, and released under the Community Data License Agreement (permissive variant).
